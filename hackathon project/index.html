@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detox.ai | Zero-Trust Privacy Layer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Optional icon fallback -->
+    <!-- Feather Icons for lightweight vectors -->
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- TOP NAV -->
+        <header class="glass-header">
+            <div class="logo">
+                <i data-feather="shield"></i>
+                <span>Detox.ai</span>
+            </div>
+            
+            <div class="header-controls">
+                <div class="risk-badge badge-green" id="riskBadge">
+                    <span class="pulse-dot"></span>
+                    <span id="riskText">Safe (No PII)</span>
+                </div>
+                <button id="settingsBtn" class="btn-icon" title="API Settings">
+                    <i data-feather="settings"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-layout">
+            <!-- CHAT INTERFACE (Left/Center) -->
+            <section class="prompt-section glass-panel">
+                <div class="chat-display" id="chatDisplay">
+                    <div class="message system-msg">
+                        <div class="msg-avatar"><i data-feather="shield"></i></div>
+                        <div class="msg-content">Welcome to Detox.ai. Enter a prompt containing PII (like a PAN or Aadhaar) to see zero-trust anonymization in action.</div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <textarea id="promptInput" placeholder="Enter your prompt or document here..." rows="3"></textarea>
+                    
+                    <div class="input-actions">
+                        <div class="explainability" id="explainPanel">
+                            <!-- Populated dynamically when PII is typed -->
+                            <span class="explain-text">Real-time PII scan active...</span>
+                        </div>
+                        <button id="sendBtn" class="btn-primary">
+                            <span>Process Securely</span>
+                            <i data-feather="send"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NETWORK INSPECTOR (Right Sidebar) -->
+            <aside class="inspector-section glass-panel">
+                <div class="panel-header">
+                    <h3><i data-feather="activity"></i> Network Inspector</h3>
+                    <p class="subtitle">See exactly what leaves your device.</p>
+                </div>
+
+                <div class="inspector-content">
+                    <div class="payload-box">
+                        <div class="box-title">Outgoing Payload (To AI)</div>
+                        <pre id="outgoingPayload">Waiting for transmission...</pre>
+                    </div>
+
+                    <div class="payload-box">
+                        <div class="box-title">Incoming Payload (From AI)</div>
+                        <pre id="incomingPayload">Waiting for response...</pre>
+                    </div>
+
+                    <div class="vault-status">
+                        <div class="box-title">RAM Privacy Vault</div>
+                        <pre id="vaultDisplay">{}</pre>
+                        <div class="vault-footer">
+                            <i data-feather="lock"></i> <span id="vaultStatusText">Wiped clean.</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="closeSettingsBtn" class="btn-icon"><i data-feather="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <label for="aiProvider">AI Provider</label>
+                <select id="aiProvider" class="form-control">
+                    <option value="gemini">Google Gemini</option>
+                    <option value="openai">OpenAI</option>
+                </select>
+
+                <label for="apiKey">API Key (Stored locally)</label>
+                <input type="password" id="apiKey" class="form-control" placeholder="Enter your API Key">
+                
+                <p class="form-help">Don't have an API key right now? Detox.ai will use a mock local echo generator by default for your hackathon demo.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSettingsBtn" class="btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        feather.replace(); // Initialize icons
+    </script>
+    <!-- Modules are loaded sequentially for Vanilla JS setup without a bundler, or we use standard script tags -->
+    <script src="piiDetector.js"></script>
+    <script src="privacyVault.js"></script>
+    <script src="llmClient.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
